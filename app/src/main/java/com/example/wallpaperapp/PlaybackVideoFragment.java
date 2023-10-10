@@ -20,28 +20,28 @@ public class PlaybackVideoFragment extends VideoSupportFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final Movie movie =
-                (Movie) getActivity().getIntent().getSerializableExtra(DetailsActivity.MOVIE);
+        final Wallpaper wallpaper =
+                (Wallpaper) getActivity().getIntent().getSerializableExtra(DetailsActivity.WALLPAPER);
 
-        VideoSupportFragmentGlueHost glueHost =
-                new VideoSupportFragmentGlueHost(PlaybackVideoFragment.this);
+        //VideoSupportFragmentGlueHost glueHost =
+                //new VideoSupportFragmentGlueHost(PlaybackVideoFragment.this);
 
         MediaPlayerAdapter playerAdapter = new MediaPlayerAdapter(getActivity());
         playerAdapter.setRepeatAction(PlaybackControlsRow.RepeatAction.INDEX_NONE);
 
         mTransportControlGlue = new PlaybackTransportControlGlue<>(getActivity(), playerAdapter);
-        mTransportControlGlue.setHost(glueHost);
-        mTransportControlGlue.setTitle(movie.getTitle());
-        mTransportControlGlue.setSubtitle(movie.getDescription());
+        //mTransportControlGlue.setHost(glueHost);
+        mTransportControlGlue.setTitle(wallpaper.getTitle());
+        //mTransportControlGlue.setSubtitle(wallpaper.getDescription());
         mTransportControlGlue.playWhenPrepared();
-        playerAdapter.setDataSource(Uri.parse(movie.getVideoUrl()));
+       // playerAdapter.setDataSource(Uri.parse(wallpaper.getVideoUrl()));
     }
 
-    @Override
-    public void onPause() {
+    //@Override
+   /* public void onPause() {
         super.onPause();
         if (mTransportControlGlue != null) {
             mTransportControlGlue.pause();
         }
-    }
+    }*/
 }

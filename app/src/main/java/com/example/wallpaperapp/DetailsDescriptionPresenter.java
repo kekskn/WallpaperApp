@@ -6,12 +6,12 @@ public class DetailsDescriptionPresenter extends AbstractDetailsDescriptionPrese
 
     @Override
     protected void onBindDescription(ViewHolder viewHolder, Object item) {
-        Movie movie = (Movie) item;
+        Wallpaper wallpaper = (Wallpaper) item;
 
-        if (movie != null) {
-            viewHolder.getTitle().setText(movie.getTitle());
-            viewHolder.getSubtitle().setText(movie.getStudio());
-            viewHolder.getBody().setText(movie.getDescription());
+        if (wallpaper != null) {
+            viewHolder.getTitle().setText(wallpaper.getTitle());
+            viewHolder.getSubtitle().setText(wallpaper.getStudio());
+            viewHolder.getBody().setText(wallpaper.getDescription());
         }
     }
 }

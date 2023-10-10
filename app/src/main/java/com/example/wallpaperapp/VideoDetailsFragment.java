@@ -54,7 +54,7 @@ public class VideoDetailsFragment extends DetailsSupportFragment {
 
     private static final int NUM_COLS = 10;
 
-    private Movie mSelectedMovie;
+    private Wallpaper mSelectedWallpaper;
 
     private ArrayObjectAdapter mAdapter;
     private ClassPresenterSelector mPresenterSelector;
@@ -68,16 +68,16 @@ public class VideoDetailsFragment extends DetailsSupportFragment {
 
         mDetailsBackground = new DetailsSupportFragmentBackgroundController(this);
 
-        mSelectedMovie =
-                (Movie) getActivity().getIntent().getSerializableExtra(DetailsActivity.MOVIE);
-        if (mSelectedMovie != null) {
+        mSelectedWallpaper =
+                (Wallpaper) getActivity().getIntent().getSerializableExtra(DetailsActivity.WALLPAPER);
+        if (mSelectedWallpaper != null) {
             mPresenterSelector = new ClassPresenterSelector();
             mAdapter = new ArrayObjectAdapter(mPresenterSelector);
             setupDetailsOverviewRow();
             setupDetailsOverviewRowPresenter();
             setupRelatedMovieListRow();
             setAdapter(mAdapter);
-            initializeBackground(mSelectedMovie);
+            initializeBackground(mSelectedWallpaper);
             setOnItemViewClickedListener(new ItemViewClickedListener());
         } else {
             Intent intent = new Intent(getActivity(), MainActivity.class);
@@ -85,7 +85,7 @@ public class VideoDetailsFragment extends DetailsSupportFragment {
         }
     }
 
-    private void initializeBackground(Movie data) {
+    private void initializeBackground(Wallpaper data) {
         mDetailsBackground.enableParallax();
         Glide.with(getActivity())
                 .asBitmap()
@@ -103,14 +103,14 @@ public class VideoDetailsFragment extends DetailsSupportFragment {
     }
 
     private void setupDetailsOverviewRow() {
-        Log.d(TAG, "doInBackground: " + mSelectedMovie.toString());
-        final DetailsOverviewRow row = new DetailsOverviewRow(mSelectedMovie);
+        Log.d(TAG, "doInBackground: " + mSelectedWallpaper.toString());
+        final DetailsOverviewRow row = new DetailsOverviewRow(mSelectedWallpaper);
         row.setImageDrawable(
                 ContextCompat.getDrawable(getActivity(), R.drawable.default_background));
         int width = convertDpToPixel(getActivity().getApplicationContext(), DETAIL_THUMB_WIDTH);
         int height = convertDpToPixel(getActivity().getApplicationContext(), DETAIL_THUMB_HEIGHT);
         Glide.with(getActivity())
-                .load(mSelectedMovie.getCardImageUrl())
+                .load(mSelectedWallpaper.getCardImageUrl())
                 .centerCrop()
                 .error(R.drawable.default_background)
                 .into(new SimpleTarget<Drawable>(width, height) {
@@ -128,18 +128,8 @@ public class VideoDetailsFragment extends DetailsSupportFragment {
         actionAdapter.add(
                 new Action(
                         ACTION_WATCH_TRAILER,
-                        getResources().getString(R.string.watch_trailer_1),
+                        getResources().getString(R.string.post_wallpaper),
                         getResources().getString(R.string.watch_trailer_2)));
-        actionAdapter.add(
-                new Action(
-                        ACTION_RENT,
-                        getResources().getString(R.string.rent_1),
-                        getResources().getString(R.string.rent_2)));
-        actionAdapter.add(
-                new Action(
-                        ACTION_BUY,
-                        getResources().getString(R.string.buy_1),
-                        getResources().getString(R.string.buy_2)));
         row.setActionsAdapter(actionAdapter);
 
         mAdapter.add(row);
@@ -165,7 +155,7 @@ public class VideoDetailsFragment extends DetailsSupportFragment {
             public void onActionClicked(Action action) {
                 if (action.getId() == ACTION_WATCH_TRAILER) {
                     Intent intent = new Intent(getActivity(), PlaybackActivity.class);
-                    intent.putExtra(DetailsActivity.MOVIE, mSelectedMovie);
+                    intent.putExtra(DetailsActivity.WALLPAPER, mSelectedWallpaper);
                     startActivity(intent);
                 } else {
                     Toast.makeText(getActivity(), action.toString(), Toast.LENGTH_SHORT).show();
@@ -176,8 +166,8 @@ public class VideoDetailsFragment extends DetailsSupportFragment {
     }
 
     private void setupRelatedMovieListRow() {
-        String subcategories[] = {getString(R.string.related_movies)};
-        List<Movie> list = MovieList.getList();
+        String subcategories[] = {getString(R.string.related_wallpapers)};
+        List<Wallpaper> list = WallpaperList.getList();
 
         Collections.shuffle(list);
         ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(new CardPresenter());
@@ -203,10 +193,10 @@ public class VideoDetailsFragment extends DetailsSupportFragment {
                 RowPresenter.ViewHolder rowViewHolder,
                 Row row) {
 
-            if (item instanceof Movie) {
+            if (item instanceof Wallpaper) {
                 Log.d(TAG, "Item: " + item.toString());
                 Intent intent = new Intent(getActivity(), DetailsActivity.class);
-                intent.putExtra(getResources().getString(R.string.movie), mSelectedMovie);
+                intent.putExtra(getResources().getString(R.string.wallpaper), mSelectedWallpaper);
 
                 Bundle bundle =
                         ActivityOptionsCompat.makeSceneTransitionAnimation(
