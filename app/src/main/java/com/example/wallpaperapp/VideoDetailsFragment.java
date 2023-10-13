@@ -45,7 +45,7 @@ import java.util.List;
 public class VideoDetailsFragment extends DetailsSupportFragment {
     private static final String TAG = "VideoDetailsFragment";
 
-    private static final int ACTION_WATCH_TRAILER = 1;
+    private static final int ACTION_POST_WALLPAPER = 1;
     private static final int ACTION_RENT = 2;
     private static final int ACTION_BUY = 3;
 
@@ -75,7 +75,7 @@ public class VideoDetailsFragment extends DetailsSupportFragment {
             mAdapter = new ArrayObjectAdapter(mPresenterSelector);
             setupDetailsOverviewRow();
             setupDetailsOverviewRowPresenter();
-            setupRelatedMovieListRow();
+            setupRelatedWallpaperListRow();
             setAdapter(mAdapter);
             initializeBackground(mSelectedWallpaper);
             setOnItemViewClickedListener(new ItemViewClickedListener());
@@ -127,9 +127,9 @@ public class VideoDetailsFragment extends DetailsSupportFragment {
 
         actionAdapter.add(
                 new Action(
-                        ACTION_WATCH_TRAILER,
-                        getResources().getString(R.string.post_wallpaper),
-                        getResources().getString(R.string.watch_trailer_2)));
+                        ACTION_POST_WALLPAPER,
+                        getResources().getString(R.string.post_wallpaper)
+                        ));
         row.setActionsAdapter(actionAdapter);
 
         mAdapter.add(row);
@@ -153,7 +153,7 @@ public class VideoDetailsFragment extends DetailsSupportFragment {
         detailsPresenter.setOnActionClickedListener(new OnActionClickedListener() {
             @Override
             public void onActionClicked(Action action) {
-                if (action.getId() == ACTION_WATCH_TRAILER) {
+                if (action.getId() == ACTION_POST_WALLPAPER) {
                     Intent intent = new Intent(getActivity(), PlaybackActivity.class);
                     intent.putExtra(DetailsActivity.WALLPAPER, mSelectedWallpaper);
                     startActivity(intent);
@@ -165,7 +165,7 @@ public class VideoDetailsFragment extends DetailsSupportFragment {
         mPresenterSelector.addClassPresenter(DetailsOverviewRow.class, detailsPresenter);
     }
 
-    private void setupRelatedMovieListRow() {
+    private void setupRelatedWallpaperListRow() {
         String subcategories[] = {getString(R.string.related_wallpapers)};
         List<Wallpaper> list = WallpaperList.getList();
 
